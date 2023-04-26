@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin/Retailer Portal</title>
+    <link rel="stylesheet" href="./css/main.css" />
+  </head>
+  <body>
+    <section>
+      <button id="admin-button">Admin</button>
+      <button id="retailer-button">Retailer</button>
+    </section>
+
+    <section>
+      <section id="adminSection" class="hidden">
+        <button id="displaySuppliersBtn">Display Suppliers</button>
+        <div id="suppliersContainer"></div>
+        <button id="add-product-to-supplier-button">
+          Add Product to a Supplier
+        </button>
+        <form id="addProductForm" class="hidden">
+          <label for="supplierSelect">Select Supplier:</label>
+          <select id="supplierSelect" required>
+            <option value="">--Please choose a supplier--</option>
+            <!-- The options will be added dynamically using JavaScript -->
+          </select>
+          
+          <label for="productName">Product Name:</label>
+          <input type="text" id="productName" required />
+
+          <!-- Add more input fields for product details if necessary -->
+          <label for="description">Description:</label>
+          <input type="text" id="description" required />
+          <label for="category">Category:</label>
+          <input type="text" id="category" required />
+          <label for="price">Price:</label>
+          <input type="number" id="price" required />
+          <button type="submit">Add Product</button>
+        </form>
+      </section>
+
+      <section id="retailerSection" class="hidden">
+        <button id="displayLocationsBtn">Display My Locations</button>
+        <div id="locationsContainer"></div>
+
+        <button id="choose-product-from-supplier-to-purchase-button">
+          Buy Product From Supplier
+        </button>
+
+        <form id="buyProductFromSupplierForm" class="hidden">
+          <label for="supplierForProductSelect">Supplier:</label>
+          <select id="supplierForProductSelect">
+            <option value="">Select a supplier</option>
+          </select>
+          <button id="refreshSuppliersBtn">Refresh Suppliers</button>
+          <label for="productFromSupplierSelect">Product:</label>
+          <select id="productFromSupplierSelect">
+            <option value="">Select a product</option>
+          </select>
+          <button id="refreshProducsBtn">Refresh Products</button>
+          <!-- Add other form fields if necessary -->
+          <label for="quantity">Quantity: </label>
+          <input type="text" id="purchaseOrderItemQuantity" required/>
+
+          
+          <button type="submit">Submit Purchase Order</button>
+        </form>
+
+
+        <button id="store-purchases-in-inventory-button">
+          Store Purchases In Inventory
+        </button>
+
+        <form id="storePurchasesInInventoryForm" class="hidden">
+
+          <label for="availableLocationsToStoreSelect">Location:</label>
+          <select id="availableLocationsToStoreSelect">
+            <option value="">Select a Location</option>
+          </select>
+          <button id="refreshLocationsBtn">Refresh Locations</button>
+          <label for="availablePurchasesToStoreSelect">Purchases:</label>
+          <select id="availablePurchasesToStoreSelect">
+            <option value="">Select a Purchase</option>
+          </select>
+          <button id="refreshPurchasesBtn">Refresh Purchases</button>
+
+
+          <!-- Add other form fields if necessary -->
+          
+          
+          <button type="submit">Create Inventory</button>
+
+        </form>
+
+        <button id="add-location-button">
+          Add Location
+        </button>
+
+        <form id="addLocationForm" class="hidden">
+
+
+          <!-- Add other form fields if necessary -->
+          <label for="locationName">Location Name: </label>
+          <input type="text" id="locationName" required/>
+          <label for="locationCapacity">Capacity: </label>
+          <input type="text" id="locationCapacity" required/>
+          
+          <button type="submit">Submit Location</button>
+
+        </form>
+
+      </section>
+    </section>
+
+    <script src="./js/adminRetailerPage.js"></script>
+  </body>
+</html>

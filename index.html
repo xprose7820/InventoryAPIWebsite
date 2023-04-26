@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inventory Management</title>
+    <link rel="stylesheet" href="./css/main.css">
+</head>
+
+<body>
+    <!-- will only display the login prompt -->
+    <!-- this section will be the entire body of the login prompt -->
+    <section>
+        <button id="login-button">Login</button>
+        <button id="create-account-button">Create Account</button>
+
+        <form id="login-form" class="hidden">
+            <!-- Login form fields here -->
+            <label for="username">Username:</label>
+            <input type="text" id="login-username" name="username" required />
+
+            <label for="password">Password:</label>
+            <input type="password" id="login-password" name="password" required />
+
+            <button id="login-submit-button" type="submit">Sign In</button>
+        </form>
+
+        <form id="create-account-form" class="hidden">
+            <!-- Account creation form fields here -->
+            <label for="username">Username:</label>
+            <input type="text" id="create-username" name="username" required />
+
+            <label for="password">Password:</label>
+            <input type="password" id="create-password" name="password" required />
+            <button id="create-account-submit-button" type="submit">
+                Create Account
+            </button>
+        </form>
+    </section>
+    <script src="./js/main.js"></script>
+</body>
+
+</html>
