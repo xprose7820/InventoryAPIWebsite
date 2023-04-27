@@ -1,17 +1,32 @@
 const jwtAdminToken = window.localStorage.getItem('jwtAdminToken');
 const jwtRetailerToken = window.localStorage.getItem('jwtRetailerToken');
+
 const adminSection = document.getElementById("adminSection");
 const retailerSection = document.getElementById("retailerSection");
 const adminSectionButton = document.getElementById('admin-button');
 const retailerSectionButton = document.getElementById('retailer-button');
+
 const addProductToSupplierForm = document.getElementById('addProductForm');
-const addProductToSupplierFormButton = document.getElementById("add-product-to-supplier-button")
+const addProductToSupplierFormButton = document.getElementById("add-product-to-supplier-button");
+
 const chooseProductFromSupplierToPurchaseForm = document.getElementById("buyProductFromSupplierForm");
 const chooseProductFromSupplierToPurchaseButton = document.getElementById("choose-product-from-supplier-to-purchase-button");
+
 const storePurchasesInInventoryButton = document.getElementById("store-purchases-in-inventory-button");
 const storePurchasesInInventoryForm = document.getElementById("storePurchasesInInventoryForm");
+
 const addLocationForm = document.getElementById("addLocationForm");
 const addLocationFormButton = document.getElementById("add-location-button");
+
+const addCustomerForm = document.getElementById("addCustomerForm");
+const addCustomerBtn = document.getElementById("add-customer-button");
+
+const addSupplierForm = document.getElementById("addSupplierForm");
+const addSupplierBtn = document.getElementById("add-supplier-button");
+
+const sellInventoryItemToCustomerForm = document.getElementById("sellInventoryItemToCustomerForm");
+const sellInventoryItemToCustomerButton = document.getElementById("sell-inventory-item-to-customer-button");
+
 
 console.log(jwtAdminToken);
 console.log(jwtRetailerToken);
@@ -55,7 +70,20 @@ addLocationFormButton.addEventListener('click', (event) => {
   addLocationForm.classList.toggle('hidden');
 })
 
+addCustomerBtn.addEventListener('click', (event) => {
+  event.preventDefault();
+  addCustomerForm.classList.toggle('hidden');
+})
 
+addSupplierBtn.addEventListener('click', (event) => {
+  event.preventDefault();
+  addSupplierForm.classList.toggle('hidden');
+})
+
+sellInventoryItemToCustomerButton.addEventListener('click', (event) => {
+  event.preventDefault();
+  sellInventoryItemToCustomerForm.classList.toggle('hidden');
+})
 
 
 ////////// ADMIN: Add product to supplier
@@ -118,6 +146,170 @@ async function addProduct(event) {
 
 
 
+
+
+
+///////////////// Retailer: sell to customer
+
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", async function () {
+  await populateCustomersToSellDropDown();
+  await populateLocationsForInventoryItemsDropDown();
+  document.getElementById("availableLocationsForInventoryItemSelect").addEventListener('change', populateInventoryItemsFromLocationsDropDown);
+  document.getElementById("sellInventoryItemToCustomerForm").addEventListener('submit', sellToCustomer);
+})
+
+async function populateCustomersToSellDropDown() {
+  const availableCustomersToSell = document.getElementById("availableCustomersToSell");
+  const customers = await fetchCustomers();
+
+  customers.forEach((customer) => {
+    const option = document.createElement("option");
+    option.value = customer.id;
+    option.textContent = customer.customerName;
+    availableCustomersToSell.appendChild(option);
+  })
+}
+async function populateLocationsForInventoryItemsDropDown() {
+  const availableLocationsForInventoryItemSelect = document.getElementById("availableLocationsForInventoryItemSelect");
+  const locations = await fetchLocations();
+
+  locations.forEach((location) => {
+    const option = document.createElement("option");
+    option.value = location.id;
+    option.textContent = location.locationName;
+    availableLocationsForInventoryItemSelect.appendChild(option);
+
+  });
+
+}
+
+async function populateInventoryItemsFromLocationsDropDown() {
+  const locationId = document.getElementById("availableLocationsForInventoryItemSelect").value;
+  console.log("iside populate location id", locationId);
+  const availableInventoryItemFromLocationSelect = document.getElementById("availableInventoryItemFromLocationSelect");
+
+  availableInventoryItemFromLocationSelect.innerHTML = "<option value=''>Select an Inventory Item</option>";
+
+  const inventoryItems = await fetchInventoryItems(parseInt(locationId));
+
+  inventoryItems.forEach((inventoryItem) => {
+    const option = document.createElement("option");
+    option.value = inventoryItem.id;
+    // console.log("inside populate invenotry Id", inventoryItem.id);
+    option.textContent = inventoryItem.productName;
+    availableInventoryItemFromLocationSelect.appendChild(option);
+  });
+}
+
+async function sellToCustomer(event) {
+  event.preventDefault();
+
+  const customerId = document.getElementById("availableCustomersToSell").value;
+  const locationId = document.getElementById("availableLocationsForInventoryItemSelect").value;
+  const inventoryItemId = document.getElementById("availableInventoryItemFromLocationSelect").value;
+  console.log("inventoryitemId is ", inventoryItemId)
+
+  const quantityToSell = document.getElementById("sellQuantity").value;
+  const price = 0;
+
+  const headers = new Headers();
+  headers.append("Content-Type", "application/json");
+  if (jwtRetailerToken) {
+    headers.append("Authorization", `Bearer ${jwtRetailerToken}`);
+  }
+
+  const doesSalesOrderExist = await fetch(`https://groupapiproject.azurewebsites.net/ByCustomerId/${customerId}`, {
+    method: 'GET',
+    headers: headers,
+  });
+
+  if (doesSalesOrderExist.ok) {
+    const doesSalesOrderExistInfo = await doesSalesOrderExist.json();
+    const salesOrderId = doesSalesOrderExistInfo.id;
+    
+
+
+    const salesOrderDetailObj = {
+      salesOrderId: parseInt(salesOrderId),
+      inventoryItemId: parseInt(inventoryItemId),
+      quantity: parseInt(quantityToSell),
+      price: parseInt(price)
+
+    }
+
+    console.log("salesOrderid is ", salesOrderId);
+    console.log("inventoryitemId is ", inventoryItemId);
+    console.log("quantity is ", quantityToSell);
+    console.log("quantity is ", price);
+
+
+    const creatingNewSalesOrderDetailObj = await fetch("https://groupapiproject.azurewebsites.net/api/SalesOrderItem", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${jwtRetailerToken}`,
+      },
+      body: JSON.stringify(salesOrderDetailObj),
+    });
+
+    const apiResult = await creatingNewSalesOrderDetailObj.json();
+    console.log('SalesOrderItem added:', apiResult);
+    document.getElementById("sellInventoryItemToCustomerForm").reset();
+
+  } else {
+
+    const salesOrderObjCreate = {
+      cusomterId: customerId,
+      locationId: locationId,
+      orderDate: (new Date()).toISOString()
+    }
+
+    const creatingSalesOrder = await fetch("https://groupapiproject.azurewebsites.net/api/SalesOrder", {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(salesOrderObjCreate)
+    });
+
+    const justCreatedSalesOrder = await fetch(`https://groupapiproject.azurewebsites.net/ByCustomerId/${customerId}`, {
+      method: 'GET',
+      headers: headers,
+    });
+
+    const justCreatedSalesOrderInfo = await justCreatedSalesOrder.json();
+    const justCreatedSalesOrderId = justCreatedSalesOrderInfo.id;
+
+    const salesOrderDetailObj = {
+      salesOrderId: parseInt(justCreatedSalesOrderId),
+      inventoryItemId: parseInt(inventoryItemId),
+      quantity: parseInt(quantityToSell),
+      price: price
+    }
+
+    const sendingSalesOrderItem = await fetch("https://groupapiproject.azurewebsites.net/api/SalesOrderItem", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${jwtRetailerToken}`,
+      },
+      body: JSON.stringify(salesOrderDetailObj),
+    });
+
+    const sendingSalesOrderItemResult = await sendingSalesOrderItem.json();
+    console.log("salesorderitem added", sendingSalesOrderItemResult);
+    document.getElementById("sellInventoryItemToCustomerForm").reset();
+
+
+  }
+
+
+
+}
 
 
 
@@ -367,6 +559,14 @@ function displayInventoryItems(inventoryItems, locationDiv) {
 
 //////////////// RETAILER: Add a location
 
+
+
+
+
+
+
+
+
 document.getElementById("addLocationForm").addEventListener('submit', addLocationToRetailer);
 
 async function addLocationToRetailer(event) {
@@ -403,12 +603,6 @@ async function addLocationToRetailer(event) {
 
 
 
-
-
-
-
-
-
 /////////////// RETAILER: create purchase order 
 
 
@@ -419,10 +613,8 @@ async function addLocationToRetailer(event) {
 document.addEventListener("DOMContentLoaded", async function () {
   await populateSupplierForProductDropdown();
   document.getElementById("supplierForProductSelect").addEventListener("change", populateProductFromSupplierDropdown);
-  document.getElementById("buyProductFromSupplierForm").addEventListener("submit", async (event) => {
-    await buyProductFromSupplier(event);
-    await updatePurchasesDropDown();
-  });
+  document.getElementById("buyProductFromSupplierForm").addEventListener("submit", buyProductFromSupplier)
+
 });
 
 async function populateSupplierForProductDropdown() {
@@ -591,6 +783,52 @@ async function updatePurchasesDropDown() {
 
 
 
+
+
+
+
+
+
+///////////// ADMIN: Add customer
+
+
+
+
+
+
+
+document.getElementById("addCustomerForm").addEventListener('submit', addCustomer);
+
+async function addCustomer(event) {
+  event.preventDefault();
+
+  const customerName = document.getElementById("customerName").value;
+  const addingCustomerObj = {
+    customerName: customerName
+  };
+  const headers = new Headers();
+  headers.append("Content-Type", "application/json");
+  if (jwtAdminToken) {
+    headers.append("Authorization", `Bearer ${jwtAdminToken}`);
+  }
+  const response = await fetch("https://groupapiproject.azurewebsites.net/api/Customer", {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify(addingCustomerObj),
+  });
+
+  const data = await response.json();
+  console.log("customer added", data);
+
+}
+
+
+
+
+
+
+
+
 ////////// ADMIN: display suppliers and their products
 
 
@@ -701,3 +939,85 @@ function displayProducts(products, supplierDiv) {
     supplierDiv.appendChild(productList);
   }
 }
+
+
+
+////////////// ADMIN: display customers
+
+
+
+
+document.getElementById("displayCustomersBtn").addEventListener("click", displayCustomers);
+
+
+async function displayCustomers() {
+  const customersContainer = document.getElementById("customersContainer");
+  customersContainer.innerHTML = "";
+
+  const customers = await fetchCustomers();
+
+  customers.forEach((customer) => {
+    const customerDiv = document.createElement("div");
+    customerDiv.className = "customer";
+
+    const customerName = document.createElement("span");
+    customerName.textContent = customer.customerName;
+    customerDiv.appendChild(customerName);
+
+    customersContainer.appendChild(customerDiv);
+  });
+}
+
+
+async function fetchCustomers() {
+  const headers = new Headers();
+  headers.append("Content-Type", "application/json");
+  if (jwtAdminToken) {
+    headers.append("Authorization", `Bearer ${jwtAdminToken}`);
+  }
+
+  const response = await fetch("https://groupapiproject.azurewebsites.net/api/Customer", {
+    method: 'GET',
+    headers: headers
+  });
+
+  const customers = await response.json();
+  return customers;
+}
+
+
+
+
+////////// ADMIN: add supplier
+
+
+document.getElementById("addSupplierForm").addEventListener('submit', addSupplier);
+
+async function addSupplier(event) {
+  event.preventDefault();
+
+  const supplierName = document.getElementById("supplierName").value;
+  const addingSupplierObj = {
+    supplierName: supplierName
+  };
+  const headers = new Headers();
+  headers.append("Content-Type", "application/json");
+  if (jwtAdminToken) {
+    headers.append("Authorization", `Bearer ${jwtAdminToken}`);
+  }
+  const response = await fetch("https://groupapiproject.azurewebsites.net/api/Supplier", {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify(addingSupplierObj),
+  });
+
+  const data = await response.json();
+  console.log("supplier added", data);
+
+}
+
+
+
+
+
+

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin/Retailer Portal</title>
+    <title>Inventory Emulator</title>
     <link rel="stylesheet" href="./css/main.css" />
   </head>
   <body>
@@ -17,16 +17,20 @@
       <section id="adminSection" class="hidden">
         <button id="displaySuppliersBtn">Display Suppliers</button>
         <div id="suppliersContainer"></div>
+        <button id="displayCustomersBtn">Display Customers</button>
+        <div id="customersContainer"></div>
+
         <button id="add-product-to-supplier-button">
-          Add Product to a Supplier
+          Generate Product for a Supplier
         </button>
+
         <form id="addProductForm" class="hidden">
           <label for="supplierSelect">Select Supplier:</label>
           <select id="supplierSelect" required>
             <option value="">--Please choose a supplier--</option>
             <!-- The options will be added dynamically using JavaScript -->
           </select>
-          
+
           <label for="productName">Product Name:</label>
           <input type="text" id="productName" required />
 
@@ -37,8 +41,24 @@
           <input type="text" id="category" required />
           <label for="price">Price:</label>
           <input type="number" id="price" required />
-          <button type="submit">Add Product</button>
+          <button type="submit">Submit</button>
         </form>
+
+        <button id="add-customer-button">Generate a Customer</button>
+        <form id="addCustomerForm" class="hidden">
+          <label for="customerName">Customer Name:</label>
+          <input type="text" id="customerName" required/>
+          <button type="submit">Submit</button>
+        </form>
+
+        <button id="add-supplier-button">Generate a Supplier</button>
+        <form id="addSupplierForm" class="hidden">
+          <label for="supplierName">Supplier Name:</label>
+          <input type="text" id="supplierName" required/>
+          <button type="submit">Submit</button>
+        </form>
+
+
       </section>
 
       <section id="retailerSection" class="hidden">
@@ -62,19 +82,16 @@
           <button id="refreshProducsBtn">Refresh Products</button>
           <!-- Add other form fields if necessary -->
           <label for="quantity">Quantity: </label>
-          <input type="text" id="purchaseOrderItemQuantity" required/>
+          <input type="text" id="purchaseOrderItemQuantity" required />
 
-          
-          <button type="submit">Submit Purchase Order</button>
+          <button type="submit">Submit</button>
         </form>
-
 
         <button id="store-purchases-in-inventory-button">
           Store Purchases In Inventory
         </button>
 
         <form id="storePurchasesInInventoryForm" class="hidden">
-
           <label for="availableLocationsToStoreSelect">Location:</label>
           <select id="availableLocationsToStoreSelect">
             <option value="">Select a Location</option>
@@ -86,30 +103,56 @@
           </select>
           <button id="refreshPurchasesBtn">Refresh Purchases</button>
 
-
           <!-- Add other form fields if necessary -->
-          
-          
-          <button type="submit">Create Inventory</button>
 
+          <button type="submit">Submit</button>
         </form>
 
-        <button id="add-location-button">
-          Add Location
-        </button>
+        <button id="add-location-button">Add Location</button>
 
         <form id="addLocationForm" class="hidden">
+          <!-- Add other form fields if necessary -->
+          <label for="locationName">Location Name: </label>
+          <input type="text" id="locationName" required />
+          <label for="locationCapacity">Capacity: </label>
+          <input type="text" id="locationCapacity" required />
+
+          <button type="submit">Submit</button>
+        </form>
+
+        <button id="sell-inventory-item-to-customer-button">
+          Sell Inventory Items to Customer
+        </button>
+
+        <form id="sellInventoryItemToCustomerForm" class="hidden">
+          
+          <label for="availableCustomersToSell">Customer:</label>
+          <select id="availableCustomersToSell">
+            <option value="">Select a Customer</option>
+          </select>
+          <button id="...">Refresh Customers</button>
+          <label for="availableLocationsForInventoryItemSelect">Location:</label>
+          <select id="availableLocationsForInventoryItemSelect">
+            <option value="">Select a Location</option>
+          </select>
+          <button id="refreshLocationsBtn">Refresh Locations</button>
+          <label for="availableInventoryItemFromLocationSelect">Inventory Item:</label>
+          <select id="availableInventoryItemFromLocationSelect">
+            <option value="">Select an Inventory Item</option>
+          </select>
+          <button id="...">Refresh Inventory Items</button>
+          
 
 
           <!-- Add other form fields if necessary -->
-          <label for="locationName">Location Name: </label>
-          <input type="text" id="locationName" required/>
-          <label for="locationCapacity">Capacity: </label>
-          <input type="text" id="locationCapacity" required/>
-          
-          <button type="submit">Submit Location</button>
+          <label for="sellQuantity">Quantity to Sell: </label>
+          <input type="text" id="sellQuantity" required />
 
+          <button type="submit">Submit</button>
         </form>
+
+
+
 
       </section>
     </section>
