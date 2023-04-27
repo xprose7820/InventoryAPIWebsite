@@ -29,6 +29,7 @@ createAccountFormButton.addEventListener('click', (event) => {
 
 loginSubmitButton.addEventListener('click', (event) => {
     event.preventDefault();
+    const messageElement = document.getElementById("loginFormMessage");
     const username = document.getElementById('login-username').value;
     let adminUsername = username + 'A';
     let retailerUsername = username + "R";
@@ -47,7 +48,9 @@ loginSubmitButton.addEventListener('click', (event) => {
         .then(response => {
             console.log('TokenRetailer response received');
             if (!response.ok) {
+                messageElement.innerHTML = "Incorrect login info."
                 throw new Error(`HTTP error ${response.status}`);
+                
             }
             return response.json()
         })
@@ -88,30 +91,50 @@ loginSubmitButton.addEventListener('click', (event) => {
 
 
 })
-createAccountSubmitButton.addEventListener('click', (event) => {
+createAccountSubmitButton.addEventListener('click', async (event) => {
     event.preventDefault();
     const username = document.getElementById('create-username').value;
-    console.log("username: ", username);
-    let adminUsername = username + 'A';
-    let retailerUsername = username + "R";
     const password = document.getElementById('create-password').value;
-    // handle api call
-    fetch('https://groupapiproject.azurewebsites.net/api/User/Register', {
-        method: 'Post',
-        body: JSON.stringify({ role: "Admin", userName: adminUsername, password: password }),
+    const messageElement = document.getElementById("createAccountFormMessage");
+    const checkIfUserAlreadyExists = await fetch(`https://groupapiproject.azurewebsites.net/${username}`, {
+        method: 'GET',
         headers: {
 
             'Content-Type': 'application/json'
-        }
-    });
-    fetch('https://groupapiproject.azurewebsites.net/api/User/Register', {
-        method: 'Post',
-        body: JSON.stringify({ role: "Retailer", userName: retailerUsername, password: password }),
-        headers: {
+        },
+    })
+    if (checkIfUserAlreadyExists.ok) {
+        console.log("username: ", username);
+        let adminUsername = username + 'A';
+        let retailerUsername = username + "R";
+        
+        // handle api call
+        const creatingAdminEntity = await fetch('https://groupapiproject.azurewebsites.net/api/User/Register', {
+            method: 'Post',
+            body: JSON.stringify({ role: "Admin", userName: adminUsername, password: password }),
+            headers: {
 
-            'Content-Type': 'application/json'
-        }
-    });
+                'Content-Type': 'application/json'
+            }
+        });
+        const creatingRetailerEntity = await fetch('https://groupapiproject.azurewebsites.net/api/User/Register', {
+            method: 'Post',
+            body: JSON.stringify({ role: "Retailer", userName: retailerUsername, password: password }),
+            headers: {
+
+                'Content-Type': 'application/json'
+            }
+        });
+
+        messageElement.innerHTML = "Successfully Created Account!";
+        console.log("created account");
+
+    }else{
+        username.value = "";
+        password.value ="";
+        messageElement.innerHTML = "Account already exists. ";
+
+    }
 })
 
 

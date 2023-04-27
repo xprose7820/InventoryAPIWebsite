@@ -155,7 +155,7 @@ async function addProduct(event) {
 
 
 
-
+document.getElementById("refreshInventoryItemsBtn").addEventListener("click", populateInventoryItemsFromLocationsDropDown);
 
 document.addEventListener("DOMContentLoaded", async function () {
   await populateCustomersToSellDropDown();
@@ -202,7 +202,7 @@ async function populateInventoryItemsFromLocationsDropDown() {
     const option = document.createElement("option");
     option.value = inventoryItem.id;
     // console.log("inside populate invenotry Id", inventoryItem.id);
-    option.textContent = inventoryItem.productName;
+    option.textContent = inventoryItem.productName + " || Current Stock: " + inventoryItem.stock;
     availableInventoryItemFromLocationSelect.appendChild(option);
   });
 }
@@ -265,7 +265,7 @@ async function sellToCustomer(event) {
   } else {
 
     const salesOrderObjCreate = {
-      cusomterId: customerId,
+      customerId: customerId,
       locationId: locationId,
       orderDate: (new Date()).toISOString()
     }
@@ -326,6 +326,8 @@ async function sellToCustomer(event) {
 document.getElementById("refreshPurchasesBtn").addEventListener("click", populatePurchaseForPurchaseStoringDropDown);
 document.getElementById("refreshLocationsBtn").addEventListener("click", populateLocationForPurchaseStoringDropDown);
 
+
+
 document.addEventListener("DOMContentLoaded", async function () {
 
 
@@ -339,12 +341,13 @@ document.addEventListener("DOMContentLoaded", async function () {
 async function populateLocationForPurchaseStoringDropDown() {
 
   const availableLocationsToStoreSelect = document.getElementById("availableLocationsToStoreSelect");
+  availableLocationsToStoreSelect.innerHTML = "<option value=''>Select a Location</option>";
   const locations = await fetchLocations();
 
   locations.forEach((location) => {
     const option = document.createElement("option");
     option.value = location.id;
-    option.textContent = location.locationName;
+    option.textContent = location.locationName + " || Current Capacity: " + location.capacity;
     availableLocationsToStoreSelect.appendChild(option);
   });
 
@@ -352,7 +355,7 @@ async function populateLocationForPurchaseStoringDropDown() {
 
 async function populatePurchaseForPurchaseStoringDropDown() {
   const availablePurchasesToStoreSelect = document.getElementById("availablePurchasesToStoreSelect");
-  availablePurchasesToStoreSelect.innerHTML = "<option value=''>Select a purchase</option>";
+  availablePurchasesToStoreSelect.innerHTML = "<option value=''>Select a Purchase</option>";
 
   const purchases = await fetchPurchases();
 
@@ -620,6 +623,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 async function populateSupplierForProductDropdown() {
   const supplierForProductSelect = document.getElementById("supplierForProductSelect");
   const suppliers = await fetchSuppliers();
+  supplierForProductSelect.innerHTML = "<option value=''>Select a Supplier</option>";
 
   suppliers.forEach((supplier) => {
     const option = document.createElement("option");

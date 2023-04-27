@@ -1,3 +1,181 @@
 .hidden {
- display: none;
+    display: none;
+}
+
+html {
+    font-family: 'Orbitron', sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#createHeaderForSwitchingButtons{
+    border: 2px solid red;
+    height: 12.5%;
+    position: relative;
+   
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* margin-right: 30px; */
+
+
+    
+    /* border: 2px solid blue; */
+    border-radius:  0 0 30px 30px;
+    background-color:rgb(255, 53, 53) ;
+}
+#createHeaderForSwitchingButtons button{
+    padding-left: 17.5%;
+    padding-right: 17.5%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    font-size: 30px;
+    background-color: transparent;
+    border-color: transparent;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+    color: white;
+
+    cursor: pointer;
+
+    
+}
+
+
+
+.backgroundImg {
+    background-image: url("../images/2108.w023.n001.937B.p1.937.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    backdrop-filter: blur(10px);
+
+    height: 100vh;
+
+}
+
+
+#login-button,
+#create-account-button {
+font-family: 'Orbitron', sans-serif;
+}
+#pUsedToCreateSpace {
+    margin-left: 20px;
+    margin-right: 20px;
+    font-size: x-large;
+}
+
+#login-button {
+    /* padding-right: 50px;
+    padding-left: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px; */
+    padding-left: 10%;
+    padding-right:10%;
+    padding-top: 10%;
+    padding-bottom:10%
+}
+
+#create-account-button {
+    /* padding-left: 50px;
+    padding-right: 35px;
+    padding-top: 20px;
+    padding-bottom: 20px; */
+    padding-left: 5%;
+    padding-right:5%;
+    padding-top: 10%;
+    padding-bottom:10%
+}
+#createAccountButtonCustomAdjust{
+    position: relative;
+    /* right: 12.5%; */
+}
+
+
+.loginCreateButtons {
+    position: relative;
+    left: 7.5%;
+    display: flex;
+    align-items: center;
+    top: 5%;
+    /* margin-right: 30px; */
+
+
+    font-family: 'Orbitron', sans-serif;
+    /* border: 2px solid blue; */
+   
+
+}
+.loginCreateButtons button{
+    border-radius: 10px;
+    background-color: rgb(255, 53, 53);
+    color: white;
+    font-weight:500;
+    border-color: rgb(255, 53, 53);
+    
+}
+
+
+#login-form>label,
+#login-form>input[type="text"],
+#login-form>input[type="password"],
+#login-form>button {
+
+    display: block;
+    margin-bottom: 10px;
+    /* add some spacing between the elements */
+}
+
+#create-account-form>label,
+#create-account-form>input[type="text"],
+#create-account-form>input[type="password"],
+#create-account-form>button {
+
+    display: block;
+    margin-bottom: 10px;
+    /* add some spacing between the elements */
+}
+
+#create-account-form {
+    position: relative;
+    top: 22.5%;
+    left: 20%;
+}
+#create-account-form label{
+    font-weight: 500;
+    font-size: 20px;
+    color: white;
+}
+
+#login-form {
+    position: relative;
+    top: 22.5%;
+    left: 27.5%;
+    
+    
+}
+.loginContainer input{
+    border-radius: 5px;
+}
+#login-form label{
+    font-weight: 500;
+    font-size: 20px;
+    color: white;
+}
+
+.loginContainer {
+    position: relative;
+    background-color: rgb(252, 126, 126);
+    border:5px solid rgb(255, 143, 143);
+    border-radius: 15px;
+    /* border: 2px solid red; */
+    left: 37.5%;
+    top: 20%;
+  
+    height: 60%;
+    width: 25%;
 }
