@@ -15,62 +15,85 @@
   </head>
   <body class="backgroundImg">
     <section id="createHeaderForSwitchingButtons">
-      
-        <button id="admin-button">Admin</button>
-        <p id="pUsedToCreateSpace">|</p>
-        <button id="retailer-button">Retailer</button>
-      
+      <button id="admin-button">Admin</button>
+      <p id="pUsedToCreateSpace">|</p>
+      <button id="retailer-button">Retailer</button>
     </section>
 
-    <section>
+    <section id="sectionAboveSectionBelowHeader">
+      <p><span>Welcome To The Inventory Management System</span></p>
+    </section>
+    
+    <section id="sectionAboveSectionBelowHeaderExplain">
+      <div>As an Admin, you have full control over your inventory management universe, from who you can buy from and who you can sell to. Follow the steps to start exploring and interacting with this system. Also, make sure to refresh the dropdowns often, because you are not the only one using this system. There are others online...</div>
+    </section>
+
+    <section id="sectionBelowHeader">
       <section id="adminSection" class="hidden">
-        <button id="displaySuppliersBtn">Display Suppliers</button>
-        <div id="suppliersContainer"></div>
-        <button id="displayCustomersBtn">Display Customers</button>
-        <div id="customersContainer"></div>
+        <section id="generateSupplierContainer">
+          <div id="descriptionForAdminSteps">Step 1: First we need to create a supplier to buy from.</div>
+          <button id="add-supplier-button">Generate a Supplier</button>
+          <form id="addSupplierForm" class="hidden form-vertical">
+            <label for="supplierName">Supplier Name:</label>
+            <input type="text" id="supplierName" required />
+            <button type="submit">Submit</button>
+          </form>
+        </section>
 
-        <button id="add-product-to-supplier-button">
-          Generate Product for a Supplier
-        </button>
+        <section id="addProductToSupplierContainer">
+          <div id="descriptionForAdminSteps">Step 2: Add some products to the supplier to buy later.</div>
+          <button id="add-product-to-supplier-button">
+            Generate Product for a Supplier
+          </button>
+          <form id="addProductForm" class="hidden form-vertical">
+            <label for="supplierSelect">Select Supplier:</label>
+            <select id="supplierSelect" required>
+              <option value="">--Please choose a supplier--</option>
+              <!-- The options will be added dynamically using JavaScript -->
+            </select>
 
-        <form id="addProductForm" class="hidden">
-          <label for="supplierSelect">Select Supplier:</label>
-          <select id="supplierSelect" required>
-            <option value="">--Please choose a supplier--</option>
-            <!-- The options will be added dynamically using JavaScript -->
-          </select>
+            <label for="productName">Product Name:</label>
+            <input type="text" id="productName" required />
 
-          <label for="productName">Product Name:</label>
-          <input type="text" id="productName" required />
+            <!-- Add more input fields for product details if necessary -->
+            <label for="description">Description:</label>
+            <input type="text" id="description" required />
+            <label for="category">Category:</label>
+            <input type="text" id="category" required />
+            <label for="price">Price:</label>
+            <input type="number" id="price" required />
+            <button type="submit">Submit</button>
+          </form>
+        </section>
 
-          <!-- Add more input fields for product details if necessary -->
-          <label for="description">Description:</label>
-          <input type="text" id="description" required />
-          <label for="category">Category:</label>
-          <input type="text" id="category" required />
-          <label for="price">Price:</label>
-          <input type="number" id="price" required />
-          <button type="submit">Submit</button>
-        </form>
+        <section id="generateCustomerButton">
+          <div id="descriptionForAdminSteps">Step 3: Create some customers to sell to later.</div>
+          <button id="add-customer-button">Generate a Customer</button>
+          <form id="addCustomerForm" class="hidden form-vertical">
+            <label for="customerName">Customer Name:</label>
+            <input type="text" id="customerName" required />
+            <button type="submit">Submit</button>
+          </form>
+        </section>
 
-        <button id="add-customer-button">Generate a Customer</button>
-        <form id="addCustomerForm" class="hidden">
-          <label for="customerName">Customer Name:</label>
-          <input type="text" id="customerName" required />
-          <button type="submit">Submit</button>
-        </form>
+        <section id="displaySuppliersContainer">
+          <div id="descriptionForSupplier">View the suppliers, and their products, added by you and others.</div>
+          <button id="displaySuppliersBtn">Display Suppliers</button>
+          <div id="suppliersContainer"></div>
+        </section>
 
-        <button id="add-supplier-button">Generate a Supplier</button>
-        <form id="addSupplierForm" class="hidden">
-          <label for="supplierName">Supplier Name:</label>
-          <input type="text" id="supplierName" required />
-          <button type="submit">Submit</button>
-        </form>
+        <section id="displayCustomersContainer">
+          <div id="descriptionForCustomer">View the customers, added by you and others.</div>
+          <button id="displayCustomersBtn">Display Customers</button>
+          <div id="customersContainer"></div>
+        </section>
       </section>
 
       <section id="retailerSection" class="hidden">
         <button id="displayLocationsBtn">Display My Locations</button>
         <div id="locationsContainer"></div>
+        <button id="displaySalesBtn">Display My Sales</button>
+        <div id="salesContainer"></div>
 
         <button id="choose-product-from-supplier-to-purchase-button">
           Buy Product From Supplier

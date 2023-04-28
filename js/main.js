@@ -35,6 +35,7 @@ loginSubmitButton.addEventListener('click', (event) => {
     let retailerUsername = username + "R";
     const password = document.getElementById('login-password').value;
     console.log('Submitting login form');
+    messageElement.innerHTML = "Logging in..."
 
     // handle api call
     fetch('https://groupapiproject.azurewebsites.net/api/TokenAdmin', {

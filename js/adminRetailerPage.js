@@ -232,7 +232,7 @@ async function sellToCustomer(event) {
   if (doesSalesOrderExist.ok) {
     const doesSalesOrderExistInfo = await doesSalesOrderExist.json();
     const salesOrderId = doesSalesOrderExistInfo.id;
-    
+
 
 
     const salesOrderDetailObj = {
@@ -553,6 +553,97 @@ function displayInventoryItems(inventoryItems, locationDiv) {
 
 
 
+///////////////// RETAILER: display my sales 
+
+
+
+
+
+
+document.getElementById("displaySalesBtn").addEventListener("click", displaySales);
+
+// Asynchronous function to display the list of suppliers and their products
+async function displaySales() {
+  // Get the suppliersContainer element from the HTML
+  const salesContainer = document.getElementById("salesContainer");
+  // Clear any existing content in the suppliersContainer
+  salesContainer.innerHTML = "";
+
+  // Call fetchSuppliers function to get the supplier data
+  const customers = await fetchCustomers();
+  // Loop through each supplier object in the suppliers array
+  customers.forEach(customer => {
+    // Create a new div element to display the supplier information
+    const salesDiv = document.createElement("div");
+    salesDiv.className = "sales"; // need to add a custom class in css
+
+    // Create a new span element to display the supplier name
+    const salesCustomerName = document.createElement("span");
+    salesCustomerName.textContent = customer.customerName;
+    // Append the supplierName element to the supplierDiv
+    salesDiv.appendChild(salesCustomerName);
+
+    // Create a new button element to display the "View Products" button
+    const viewSalesWithCustomerButton = document.createElement("button");
+    viewSalesWithCustomerButton.textContent = "View Sales With Customer";
+    // Add an onclick event to fetch and display products for the current supplier when clicked
+    viewSalesWithCustomerButton.onclick = async function () {
+      // Call fetchProducts function to get the product data for the current supplier
+      const salesOrderItems = await fetchSalesOrderItems(customer.id);
+      // Call displayProducts function to display the products list
+      displaySalesOrderItem(salesOrderItems, salesDiv);
+    };
+    // Append the viewProductsButton element to the supplierDiv
+    salesDiv.appendChild(viewSalesWithCustomerButton);
+
+    // Append the supplierDiv element to the suppliersContainer
+    salesContainer.appendChild(salesDiv);
+  });
+}
+
+async function fetchSalesOrderItems(customerId){
+  const headers = new Headers();
+  headers.append("Content-Type", "application/json");
+  if (jwtRetailerToken) {
+    headers.append("Authorization", `Bearer ${jwtRetailerToken}`);
+  }
+  const response = await fetch(`https://groupapiproject.azurewebsites.net/GettingSalesOrderItem/${customerId}`, {
+    method: 'GET',
+    headers: headers
+  });
+  const data = await response.json();
+  return data
+}
+
+
+
+
+
+
+// Function to display the list of products for a specific supplier
+function displaySalesOrderItem(salesOrderItems, salesDiv) {
+  // Create a new unordered list element to display the products
+  const salesOrderItemList = document.createElement("ul");
+  // Loop through each product object in the products array
+  salesOrderItems.forEach(salesOrderItem => {
+    // Create a new list item element to display the product name
+    const salesOrderItemItem = document.createElement("li");
+    salesOrderItemItem.textContent = "Product Name: " + salesOrderItem.productName + " || " + "Quantity Sold: " + salesOrderItem.quantity;
+    // Append the productItem element to the productList
+    salesOrderItemList.appendChild(salesOrderItemItem);
+  });
+
+  // Check if there's an existing product list in the supplierDiv
+  const existingSalesOrderItemList = salesDiv.querySelector("ul");
+  // If there's an existing product list, replace it with the new productList
+  if (existingSalesOrderItemList) {
+    salesDiv.replaceChild(salesOrderItemList, existingSalesOrderItemList);
+  }
+  else {
+    // If there's no existing product list, append the new productList to the supplierDiv
+    salesDiv.appendChild(salesOrderItemList);
+  }
+}
 
 
 
@@ -893,7 +984,7 @@ async function displaySuppliers() {
   suppliers.forEach(supplier => {
     // Create a new div element to display the supplier information
     const supplierDiv = document.createElement("div");
-    supplierDiv.className = "supplier";
+    supplierDiv.className = "blackFontColor";
 
     // Create a new span element to display the supplier name
     const supplierName = document.createElement("span");
@@ -962,7 +1053,7 @@ async function displayCustomers() {
 
   customers.forEach((customer) => {
     const customerDiv = document.createElement("div");
-    customerDiv.className = "customer";
+    customerDiv.className = "blackFontColor";
 
     const customerName = document.createElement("span");
     customerName.textContent = customer.customerName;

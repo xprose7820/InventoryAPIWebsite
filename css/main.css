@@ -5,30 +5,183 @@
 html {
     font-family: 'Orbitron', sans-serif;
 }
+.blackFontColor{
+    color:black;
+    font-weight: 500;
+    font-size: 20px;
+}
+
+#sectionAboveSectionBelowHeader p{
+    text-align: center;
+    color: white;
+    font-size: 25px;
+}
+#sectionAboveSectionBelowHeader span{
+    
+    background-color: rgb(255, 54, 54);
+    border-radius: 15px;
+    border: 5px solid ;
+    border-color: rgb(255, 165, 165);
+    padding: 10px 20px 10px 20px;
+    
+
+}
+#sectionAboveSectionBelowHeaderExplain {
+    position: relative;
+    text-align: center;
+    color: white;
+
+}
+#sectionAboveSectionBelowHeaderExplain div{
+    background-color: black;
+    /* border: 2px solid blue; */
+    margin-left: 100px;
+    margin-right: 100px;
+    border-radius: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-weight: 500;
+   
+    
+}
+
+#adminSection {
+    position: relative;
+}
+
+#generateSupplierContainer {
+    position: absolute;
+    margin-top: 2%;
+    /* border: 5px solid lightblue; */
+    color: white;
+    
+}
+
+#generateSupplierContainer div{
+    
+    
+    background-color: black;
+    
+    width: 50%;
+    border-radius: 15px;
+    text-align: center;
+    padding: 10px 5px 10px 5px;
+}
+
+.form-vertical label,
+.form-vertical input,
+.form-vertical button {
+  display: block;
+  margin-bottom: 10px; /* Add some space between the elements */
+  color: black;
+  font-weight: 600;
+}
+#addProductToSupplierContainer {
+    position: absolute;
+    margin-top: 2%;
+    left: 20%;
+    /* border: 5px solid lightblue; */
+    color: white;
+}
+#addProductToSupplierContainer div{
+    
+    padding: 10px 5px 10px 5px;
+    background-color: black;
+    
+    width: 50%;
+    border-radius: 15px;
+    text-align: center;
+}
+
+#generateCustomerButton {
+    position: absolute;
+    left: 40%;
+    margin-top: 2%;
+    color:white;
+}
+#generateCustomerButton div{
+    
+    padding: 10px 5px 10px 5px;
+    background-color: black;
+    
+    width: 50%;
+    border-radius: 15px;
+    text-align: center;
+
+}
+
+
+#displaySuppliersContainer {
+    position: absolute;
+    left:57.5%;
+    margin-top:2%;
+    color:white;
+
+
+
+}
+#descriptionForSupplier{
+    padding: 10px 5px 10px 5px;
+    background-color: black;
+    
+    width: 50%;
+    border-radius: 15px;
+    text-align: center;
+
+
+}
+
+#displayCustomersContainer {
+    position: absolute;
+    left: 82.5%;
+    margin-top: 2%;
+    color: white;
+}
+#descriptionForCustomer{
+    padding: 10px 5px 10px 5px;
+    background-color: black;
+    
+    width: 50%;
+    border-radius: 15px;
+    text-align: center;
+}
+
 
 body {
     margin: 0;
     padding: 0;
 }
 
-#createHeaderForSwitchingButtons{
+
+#sectionBelowHeader {
+    position: relative;
+    /* border: 5px solid green; */
+    height: 80vh;
+}
+
+#createHeaderForSwitchingButtons {
+    position: relative;
     border: 2px solid red;
     height: 12.5%;
     position: relative;
-   
+
     display: flex;
     align-items: center;
     justify-content: center;
-    
+
     /* margin-right: 30px; */
 
 
-    
+
     /* border: 2px solid blue; */
-    border-radius:  0 0 30px 30px;
-    background-color:rgb(255, 53, 53) ;
+    border-radius: 0 0 30px 30px;
+    background-color: rgb(255, 53, 53);
 }
-#createHeaderForSwitchingButtons button{
+
+
+#createHeaderForSwitchingButtons button {
     padding-left: 17.5%;
     padding-right: 17.5%;
     padding-top: 2%;
@@ -37,12 +190,12 @@ body {
     background-color: transparent;
     border-color: transparent;
     font-family: 'Orbitron', sans-serif;
-    font-weight: bold;
+    font-weight: 500;
     color: white;
 
     cursor: pointer;
 
-    
+
 }
 
 
@@ -54,19 +207,21 @@ body {
     background-position: center center;
     backdrop-filter: blur(10px);
 
-    height: 100vh;
+    height: 120vh;
 
 }
 
 
 #login-button,
 #create-account-button {
-font-family: 'Orbitron', sans-serif;
+    font-family: 'Orbitron', sans-serif;
 }
+
 #pUsedToCreateSpace {
     margin-left: 20px;
     margin-right: 20px;
     font-size: x-large;
+    color: white;
 }
 
 #login-button {
@@ -75,9 +230,9 @@ font-family: 'Orbitron', sans-serif;
     padding-top: 20px;
     padding-bottom: 20px; */
     padding-left: 10%;
-    padding-right:10%;
+    padding-right: 10%;
     padding-top: 10%;
-    padding-bottom:10%
+    padding-bottom: 10%
 }
 
 #create-account-button {
@@ -86,11 +241,12 @@ font-family: 'Orbitron', sans-serif;
     padding-top: 20px;
     padding-bottom: 20px; */
     padding-left: 5%;
-    padding-right:5%;
+    padding-right: 5%;
     padding-top: 10%;
-    padding-bottom:10%
+    padding-bottom: 10%
 }
-#createAccountButtonCustomAdjust{
+
+#createAccountButtonCustomAdjust {
     position: relative;
     /* right: 12.5%; */
 }
@@ -107,16 +263,17 @@ font-family: 'Orbitron', sans-serif;
 
     font-family: 'Orbitron', sans-serif;
     /* border: 2px solid blue; */
-   
+
 
 }
-.loginCreateButtons button{
+
+.loginCreateButtons button {
     border-radius: 10px;
     background-color: rgb(255, 53, 53);
     color: white;
-    font-weight:500;
+    font-weight: 500;
     border-color: rgb(255, 53, 53);
-    
+
 }
 
 
@@ -145,7 +302,8 @@ font-family: 'Orbitron', sans-serif;
     top: 22.5%;
     left: 20%;
 }
-#create-account-form label{
+
+#create-account-form label {
     font-weight: 500;
     font-size: 20px;
     color: white;
@@ -155,13 +313,15 @@ font-family: 'Orbitron', sans-serif;
     position: relative;
     top: 22.5%;
     left: 27.5%;
-    
-    
+
+
 }
-.loginContainer input{
+
+.loginContainer input {
     border-radius: 5px;
 }
-#login-form label{
+
+#login-form label {
     font-weight: 500;
     font-size: 20px;
     color: white;
@@ -170,12 +330,12 @@ font-family: 'Orbitron', sans-serif;
 .loginContainer {
     position: relative;
     background-color: rgb(252, 126, 126);
-    border:5px solid rgb(255, 143, 143);
+    border: 5px solid rgb(255, 143, 143);
     border-radius: 15px;
     /* border: 2px solid red; */
     left: 37.5%;
     top: 20%;
-  
+
     height: 60%;
     width: 25%;
 }
