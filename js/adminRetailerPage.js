@@ -27,6 +27,11 @@ const addSupplierBtn = document.getElementById("add-supplier-button");
 const sellInventoryItemToCustomerForm = document.getElementById("sellInventoryItemToCustomerForm");
 const sellInventoryItemToCustomerButton = document.getElementById("sell-inventory-item-to-customer-button");
 
+const retailerDisplayLocationsButton = document.getElementById("displayLocationsBtn");
+const retailerDisplayLocationsDiv = document.getElementById("locationsContainer");
+
+const retailerDisplaySalesButton = document.getElementById("displaySalesBtn");
+const retailerDisplaySalesDiv = document.getElementById("salesContainer");
 
 console.log(jwtAdminToken);
 console.log(jwtRetailerToken);
@@ -85,7 +90,15 @@ sellInventoryItemToCustomerButton.addEventListener('click', (event) => {
   sellInventoryItemToCustomerForm.classList.toggle('hidden');
 })
 
+retailerDisplayLocationsButton.addEventListener('click', (event) => {
+  event.preventDefault()
+  retailerDisplayLocationsDiv.classList.toggle('hidden');
+})
 
+retailerDisplaySalesButton.addEventListener('click', (event) => {
+  event.preventDefault()
+  retailerDisplaySalesDiv.classList.toggle('hidden');
+})
 ////////// ADMIN: Add product to supplier
 
 
@@ -95,13 +108,14 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   document.getElementById("addProductForm").addEventListener("submit", addProduct);
 });
+document.getElementById("refreshSupplierProductBtn").addEventListener('click', populateSupplierDropdown);
 
 
 
 async function populateSupplierDropdown() {
   const supplierSelect = document.getElementById("supplierSelect");
   const suppliers = await fetchSuppliers();
-
+  supplierSelect.innerHTML = "";
   suppliers.forEach((supplier) => {
     const option = document.createElement("option");
     option.value = supplier.id;
@@ -112,6 +126,7 @@ async function populateSupplierDropdown() {
 
 async function addProduct(event) {
   event.preventDefault();
+  const messageResult = document.getElementById("adminAddProductMessage");
 
   const supplierId = document.getElementById("supplierSelect").value;
   const productName = document.getElementById("productName").value;
@@ -136,7 +151,7 @@ async function addProduct(event) {
     },
     body: JSON.stringify(newProduct),
   });
-
+  messageResult.innerHTML = "Product Created!";
   const addedProduct = await response.json();
   console.log('Product added:', addedProduct);
 
@@ -153,8 +168,8 @@ async function addProduct(event) {
 
 
 
-
-
+document.getElementById("refreshLocationsBtnSell").addEventListener("click", populateLocationsForInventoryItemsDropDown);
+document.getElementById("refreshCustomerButton").addEventListener("click", populateCustomersToSellDropDown);
 document.getElementById("refreshInventoryItemsBtn").addEventListener("click", populateInventoryItemsFromLocationsDropDown);
 
 document.addEventListener("DOMContentLoaded", async function () {
@@ -167,6 +182,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 async function populateCustomersToSellDropDown() {
   const availableCustomersToSell = document.getElementById("availableCustomersToSell");
   const customers = await fetchCustomers();
+  availableCustomersToSell.innerHTML = "";
 
   customers.forEach((customer) => {
     const option = document.createElement("option");
@@ -178,6 +194,7 @@ async function populateCustomersToSellDropDown() {
 async function populateLocationsForInventoryItemsDropDown() {
   const availableLocationsForInventoryItemSelect = document.getElementById("availableLocationsForInventoryItemSelect");
   const locations = await fetchLocations();
+  availableLocationsForInventoryItemSelect.innerHTML = "";
 
   locations.forEach((location) => {
     const option = document.createElement("option");
@@ -209,6 +226,7 @@ async function populateInventoryItemsFromLocationsDropDown() {
 
 async function sellToCustomer(event) {
   event.preventDefault();
+  const messageResult = document.getElementById("retailerSellMessage");
 
   const customerId = document.getElementById("availableCustomersToSell").value;
   const locationId = document.getElementById("availableLocationsForInventoryItemSelect").value;
@@ -230,6 +248,7 @@ async function sellToCustomer(event) {
   });
 
   if (doesSalesOrderExist.ok) {
+    messageResult.innerHTML = "Item Sold!";
     const doesSalesOrderExistInfo = await doesSalesOrderExist.json();
     const salesOrderId = doesSalesOrderExistInfo.id;
 
@@ -260,10 +279,11 @@ async function sellToCustomer(event) {
 
     const apiResult = await creatingNewSalesOrderDetailObj.json();
     console.log('SalesOrderItem added:', apiResult);
+
     document.getElementById("sellInventoryItemToCustomerForm").reset();
 
   } else {
-
+    messageResult.innerHTML = "Item Sold!";
     const salesOrderObjCreate = {
       customerId: customerId,
       locationId: locationId,
@@ -302,6 +322,7 @@ async function sellToCustomer(event) {
 
     const sendingSalesOrderItemResult = await sendingSalesOrderItem.json();
     console.log("salesorderitem added", sendingSalesOrderItemResult);
+
     document.getElementById("sellInventoryItemToCustomerForm").reset();
 
 
@@ -388,6 +409,9 @@ async function fetchPurchases() {
 
 async function storePurchaseInInventory(event) {
   event.preventDefault();
+
+  const messageResult = document.getElementById("retailerStoreMessage");
+  
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
   if (jwtRetailerToken) {
@@ -418,6 +442,7 @@ async function storePurchaseInInventory(event) {
     purchaseOrderItemId: parseInt(purchaseOrderItemId),
     locationId: parseInt(locationId)
   };
+  messageResult.innerHTML = "You stored your purchases!";
 
   const creatingNewInventoryItemObj = await fetch("https://groupapiproject.azurewebsites.net/api/InventoryItem", {
     method: 'POST',
@@ -429,6 +454,7 @@ async function storePurchaseInInventory(event) {
   });
 
   const apiResult = await creatingNewInventoryItemObj.json();
+
   console.log('InvItem added:', apiResult);
   document.getElementById("storePurchasesInInventoryForm").reset();
 }
@@ -460,7 +486,7 @@ async function displayLocations() {
   locations.forEach(location => {
     // Create a new div element to display the supplier information
     const locationDiv = document.createElement("div");
-    locationDiv.className = "location"; // need to add a custom class in css
+    locationDiv.className = "blackFontColorSmallerFont"; // need to add a custom class in css
 
     // Create a new span element to display the supplier name
     const locationName = document.createElement("span");
@@ -575,7 +601,7 @@ async function displaySales() {
   customers.forEach(customer => {
     // Create a new div element to display the supplier information
     const salesDiv = document.createElement("div");
-    salesDiv.className = "sales"; // need to add a custom class in css
+    salesDiv.className = "blackFontColorSmallerFont"; // need to add a custom class in css
 
     // Create a new span element to display the supplier name
     const salesCustomerName = document.createElement("span");
@@ -601,7 +627,7 @@ async function displaySales() {
   });
 }
 
-async function fetchSalesOrderItems(customerId){
+async function fetchSalesOrderItems(customerId) {
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
   if (jwtRetailerToken) {
@@ -666,6 +692,7 @@ document.getElementById("addLocationForm").addEventListener('submit', addLocatio
 async function addLocationToRetailer(event) {
 
   event.preventDefault();
+  const messageResult = document.getElementById("retailerAddLocationMessage");
   const locationName = document.getElementById("locationName").value;
   const locationCapacity = document.getElementById("locationCapacity").value;
   const addingLocationObj = {
@@ -683,6 +710,7 @@ async function addLocationToRetailer(event) {
     headers: headers,
     body: JSON.stringify(addingLocationObj)
   });
+  messageResult.innerHTML = "Location Added!";
 
   const data = response.json();
   console.log("Loc added", data)
@@ -710,6 +738,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   document.getElementById("buyProductFromSupplierForm").addEventListener("submit", buyProductFromSupplier)
 
 });
+document.getElementById("refreshSuppliersBtn").addEventListener('click', populateSupplierForProductDropdown);
 
 async function populateSupplierForProductDropdown() {
   const supplierForProductSelect = document.getElementById("supplierForProductSelect");
@@ -761,6 +790,7 @@ async function fetchProductsBySupplier(supplierId) {
 
 async function buyProductFromSupplier(event) {
   event.preventDefault();
+  const messageResult = document.getElementById("retailerAddPurchaseMessage");
 
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
@@ -783,6 +813,7 @@ async function buyProductFromSupplier(event) {
 
   if (doesPurchaseOrderExist.ok) {
     console.log("we are here")
+    messageResult.innerHTML = "You bought Products!";
     const doesPurchaseOrderExistInfo = await doesPurchaseOrderExist.json();
     const purchaseOrderId = doesPurchaseOrderExistInfo.id
 
@@ -803,14 +834,17 @@ async function buyProductFromSupplier(event) {
       body: JSON.stringify(purchaseOrderItemDetail),
     });
     const creatingPurchaseOrderItemResult = await creatingPurchaseOrderItem.json();
+
+
     console.log('PurchaseItem added:', creatingPurchaseOrderItemResult);
-    await updatePurchasesDropDown();
+
 
     document.getElementById("buyProductFromSupplierForm").reset();
 
 
   }
   else {
+    messageResult.innerHTML = "You bought Products!";
 
     const purchaseOrderObj = {
       supplierId: supplierId,
@@ -852,7 +886,8 @@ async function buyProductFromSupplier(event) {
     });
     const creatingPurchaseOrderItemResult = await creatingPurchaseOrderItem.json();
     console.log('PurchaseItem added:', creatingPurchaseOrderItemResult);
-    await updatePurchasesDropDown();
+
+
 
     document.getElementById("buyProductFromSupplierForm").reset();
 
@@ -896,7 +931,7 @@ document.getElementById("addCustomerForm").addEventListener('submit', addCustome
 
 async function addCustomer(event) {
   event.preventDefault();
-
+  const messageResult = document.getElementById("adminAddCustomerMessage");
   const customerName = document.getElementById("customerName").value;
   const addingCustomerObj = {
     customerName: customerName
@@ -911,7 +946,7 @@ async function addCustomer(event) {
     headers: headers,
     body: JSON.stringify(addingCustomerObj),
   });
-
+  messageResult.innerHTML = "Customer Created!";
   const data = await response.json();
   console.log("customer added", data);
 
@@ -1090,6 +1125,7 @@ document.getElementById("addSupplierForm").addEventListener('submit', addSupplie
 
 async function addSupplier(event) {
   event.preventDefault();
+  const messageResult = document.getElementById("generateSupplierMessage");
 
   const supplierName = document.getElementById("supplierName").value;
   const addingSupplierObj = {
@@ -1105,6 +1141,8 @@ async function addSupplier(event) {
     headers: headers,
     body: JSON.stringify(addingSupplierObj),
   });
+
+  messageResult.innerHTML = "Supplier Added";
 
   const data = await response.json();
   console.log("supplier added", data);

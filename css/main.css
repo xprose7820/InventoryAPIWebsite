@@ -11,6 +11,12 @@ html {
     font-size: 20px;
 }
 
+.blackFontColorSmallerFont{
+    color:black;
+    font-weight: 500;
+    font-size: 15px;
+}
+
 #sectionAboveSectionBelowHeader p{
     text-align: center;
     color: white;
@@ -50,6 +56,118 @@ html {
 #adminSection {
     position: relative;
 }
+#generateLocationContainer{
+    position: absolute;
+    margin-top: 2%;
+    /* border: 5px solid lightblue; */
+    color: white;
+}
+#generateLocationContainer div{
+    
+    
+    background-color: black;
+    
+    width: 35%;
+    border-radius: 15px;
+    text-align: center;
+    padding: 10px 5px 10px 5px;
+}
+#purchaseContainer{
+    position: absolute;
+    margin-top: 2%;
+    left: 16%;
+    /* border: 5px solid lightblue; */
+    color: white;
+}
+#purchaseContainer div{
+      
+    background-color: black;
+    
+    width: 35%;
+    border-radius: 15px;
+    text-align: center;
+    padding: 10px 5px 10px 5px;
+}
+#storeInInventoryContainer{
+    position: absolute;
+    margin-top: 2%;
+    left: 31.5%;
+    /* border: 5px solid lightblue; */
+    color: white;
+}
+#storeInInventoryContainer div{
+      
+    background-color: black;
+    
+    width: 35%;
+    border-radius: 15px;
+    text-align: center;
+    padding: 10px 5px 10px 5px;
+}
+#sellToCustomerContainer{
+    position: absolute;
+    margin-top: 2%;
+    left: 49%;
+    /* border: 5px solid lightblue; */
+    color: white;
+}
+
+#sellToCustomerContainer div{
+      
+    background-color: black;
+    
+    width: 35%;
+    border-radius: 15px;
+    text-align: center;
+    padding: 10px 5px 10px 5px;
+}
+
+
+#displayLocationContainer{
+    position: absolute;
+    margin-top: 2%;
+    left: 65%;
+    /* border: 5px solid lightblue; */
+    color: white;
+}
+
+#displayCustomerRetailerContainerMessage{
+    background-color: rgb(85, 85, 85);
+    
+    width: 35%;
+    border-radius: 15px;
+    text-align: center;
+    padding: 10px 5px 10px 5px;
+}
+
+#displaySalesContainer{
+    position: absolute;
+    margin-top: .5%;
+    left: 80%;
+    /* border: 5px solid lightblue; */
+    color: white;
+}
+#displaySalesRetailerContainerMessage{
+    background-color: rgb(85, 85, 85);
+    
+    width: 35%;
+    border-radius: 15px;
+    text-align: center;
+    padding: 10px 5px 10px 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #generateSupplierContainer {
     position: absolute;
@@ -58,6 +176,8 @@ html {
     color: white;
     
 }
+
+
 
 #generateSupplierContainer div{
     
@@ -95,6 +215,7 @@ html {
     text-align: center;
 }
 
+
 #generateCustomerButton {
     position: absolute;
     left: 40%;
@@ -124,7 +245,7 @@ html {
 }
 #descriptionForSupplier{
     padding: 10px 5px 10px 5px;
-    background-color: black;
+    background-color: rgb(94, 94, 94);
     
     width: 50%;
     border-radius: 15px;
@@ -141,7 +262,7 @@ html {
 }
 #descriptionForCustomer{
     padding: 10px 5px 10px 5px;
-    background-color: black;
+    background-color: rgb(94, 94, 94);
     
     width: 50%;
     border-radius: 15px;
